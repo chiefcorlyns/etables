@@ -1,6 +1,6 @@
 This is a notification system that is, a web application to send notes over IOT (mqtt broker). It is based on the PUBLISH-SUBSCRIBE Architural style.
 
-The core of the project was developed by ildus
+Much inspiration was drawn from the work of ildus
 
 TO RUN THE PROGRAM RUN THE FOLLOWING COMMANDS IN THE TERMINAL:
 
