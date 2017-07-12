@@ -1,27 +1,18 @@
-# Простой табличный редактор с выводом строк в документы odt (OpenDocument Format)
+This is a notification system that is, a web application to send notes over IOT (mqtt broker). It is based on the PUBLISH-SUBSCRIBE Architural style.
 
-## Возможности:
+The core of the project was developed by ildus
 
-* Создание, изменение, структуры структуры таблиц
-* Добавление, изменение, удаление строк таблиц
-* Печать строк таблиц как документов с помощью заданного шаблона. 
+TO RUN THE PROGRAM RUN THE FOLLOWING COMMANDS IN THE TERMINAL:
 
-Шаблон создается прямо в OpenOffice как обычный документ odt, и прикрепляется к таблице. Переменными являются 
-идентификаторы столбцов, которые задаются как {{идентификатор}} в документе.
-
-## Запуск системы
-
-В системе должен быть установлен erlang
-
-    git clone git@github.com:ildus/etables.git
+    git clone git@github.com:chiefcorlyns/etables.git
     cd etables
     mkdir db && mkdir db/dev
     make
     ../start-dev.sh
     
-В интерпретаторе запущенного сервера необходимо создать базу и первого пользователя
+TO SETUP THE MNESIA DATABASE CLICK ENTER AND CONTINUE TO RUN:
 
     tablesdb:reset().
     helpers:new_user("admin", "password", true).
     
-Все, теперь можно пользоваться по адресу http://localhost:8080
+The webpage can be accessed on this ip: http://localhost:8080
