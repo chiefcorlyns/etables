@@ -4,6 +4,10 @@
     password, %% password, string
     is_admin = false %% admin indicator
 }).
+-record(painting, {index, artist, title}).    
+
+-record(project, {username,
+                  password}).
 -record(table, {    
     id, %% table id, int
     name, %% table name, string

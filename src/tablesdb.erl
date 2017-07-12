@@ -11,10 +11,14 @@ reset() ->
     mnesia:start(),
 
     mnesia:create_table(table, [{disc_copies, [node()]}, {attributes, record_info(fields, table)}]),
+    mnesia:create_table(project, [{disc_copies, [node()]}, {attributes, record_info(fields, project)}]),
     mnesia:create_table(user, [{disc_copies, [node()]}, {attributes, record_info(fields, user)}]),
     mnesia:create_table(row, [{disc_copies, [node()]}, {attributes, record_info(fields, row)}]),
-    mnesia:create_table(counter, [{disc_copies, [node()]}, {attributes, record_info(fields, counter)}]).
-
+    mnesia:create_table(counter, [{disc_copies, [node()]}, {attributes, record_info(fields, counter)}]),
+    mnesia:create_table(painting,
+        [ {disc_copies, [node()] },
+             {attributes,      
+                record_info(fields,painting)} ]).
 find(Q) ->
     F = fun() ->
             qlc:e(Q)
@@ -69,3 +73,31 @@ delete(Oid) ->
             mnesia:delete(Oid)
     end,
     mnesia:transaction(F).
+
+selectIndex( Index) ->
+    Fun = 
+        fun() ->
+            mnesia:read({project, Index})
+        end,
+    {atomic, [Row]}=mnesia:transaction(Fun),
+    io:format(" ~p ~p ~n ", [Row#project.username, Row#project.password] ).
+
+select_all() -> 
+    mnesia:transaction( 
+    fun() ->
+        qlc:eval( qlc:q(
+            [ X || X <- mnesia:table(painting) ] 
+        )) 
+    end ).
+
+    insertData( Index, Artist, Title) ->
+    Fun = fun() ->
+         mnesia:write(
+         #painting{ index=Index,
+                   artist=Artist, 
+                        title=Title    } )
+               end,
+         mnesia:transaction(Fun).
+
+
+

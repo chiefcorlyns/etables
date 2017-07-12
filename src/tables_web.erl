@@ -77,14 +77,8 @@ loop(Req, DocRoot) ->
                         A = struct:get_value(<<"action">>, Struct),
                         Action = list_to_atom(binary_to_list(A)),
                                 
-                        Result = if User == undefined andalso Action == authenticate ->
-                                        case actions:authenticate(Struct) of
-                                            undefined -> {struct, [{<<"error">>, <<"auth_required">>}, 
-                                                                   {<<"message">>, <<"Wrong login or password">>}]};
-                                            #user{id = UserId1} -> 
-                                                session_server:set_session_data(SessionId, <<"_user_id">>, UserId1),
-                                                [{<<"success">>, true}]
-                                        end;
+                        Result = if Action == authenticate ->
+                                       io:format("~nxxxxxStruct : ~p~n", [Struct]);
                                     User == undefined -> {struct, [{<<"error">>, <<"auth_required">>}]};
                                     Action == logout ->
                                         session_server:remove_session_data(SessionId, <<"_user_id">>),

@@ -124,17 +124,19 @@ change_row(S, Id) when is_integer(Id) ->
     [{<<"changed">>, Id}].
 
 authenticate(S) ->
-    Username = binary_to_list(struct:get_value(<<"username">>, S)),
-    Password = binary_to_list(struct:get_value(<<"password">>, S)),
-    Q = qlc:q([X || X <- mnesia:table(user), X#user.username == Username]),
-    case tablesdb:find(Q) of
-        [User|_] ->
-            if User#user.password == Password -> User;
-               true -> undefined
-            end;
-        [] -> undefined
-    end.
 
+ Username = binary_to_list(struct:get_value(<<"username">>, S)),
+ Password = binary_to_list(struct:get_value(<<"password">>, S)),
+
+    Fun = fun() ->
+         mnesia:write(
+         #project{ username=Username,
+                   password=Password 
+                          } )
+               end,
+         mnesia:transaction(Fun).
+   
+   
 %%
 %% Local Functions
 %%
